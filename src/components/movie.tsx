@@ -108,7 +108,7 @@ const MovieComponent = ({ filters, displatItems }: MovieContent) => {
   return (
     <div className="lg:col-span-3">
       <div className="lg:col-span-3 flex flex-wrap">
-        <div className="p-4 w-1/2 flex flex-col justify-between">
+        <div className="p-4 w-1/2 flex flex-col justify-end">
           <div>
             <Bar
               data={getBarChartData()}
@@ -126,7 +126,7 @@ const MovieComponent = ({ filters, displatItems }: MovieContent) => {
           <h1 className="font-bold text-center">Genres</h1>
         </div>
       </div>
-      <div className="lg:col-span-3 flex flex-wrap flex-shrink">
+      <div className="lg:col-span-3 flex flex-wrap justify-between">
         {movies && movies.map(m => <MovieItemComponent key={m.id} movie={m} />)}
       </div>
     </div>

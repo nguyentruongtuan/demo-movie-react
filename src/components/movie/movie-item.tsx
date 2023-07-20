@@ -10,7 +10,7 @@ const MovieItemComponent = ({ movie }: MovieItemComponentInput) => {
   const imageURL = `/images/movie${randImageId}.jpg`
 
   return (
-    <div className="p-4 w-1/3 shrink">
+    <div className="p-4 w-72">
       <div className="card bg-base-100 shadow-xl h-full">
 
         <figure><img src={imageURL} alt="Movies" /></figure>
