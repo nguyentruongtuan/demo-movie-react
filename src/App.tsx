@@ -3,6 +3,8 @@ import { ChevronDownIcon, FunnelIcon, Squares2X2Icon } from '@heroicons/react/20
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Fragment, useState } from 'react';
 import FilterComponent from './components/filter';
+import MovieComponent from './components/movie';
+import { MovieFilter } from './helpers/movie-entity';
 
 
 
@@ -22,6 +24,20 @@ function classNames(...classes: any) {
 function App() {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
+  const [selectFilter, setSelectFilter] = useState<MovieFilter>([{ type: 'genres', value: new Set() }])
+
+  const updateFilter = (filterKey: string, value: number) => {
+    const newFilters = [...selectFilter]
+
+    for (const filter of newFilters) {
+      filter.type === filterKey && filter.value.has(value) ? filter.value.delete(value) : filter.value.add(value)
+    }
+
+    console.log(newFilters)
+
+    setSelectFilter([...newFilters])
+  }
+
 
   return (
     <div className="bg-white">
@@ -65,7 +81,7 @@ function App() {
                   </div>
 
                   {/* Filters */}
-                  <FilterComponent />
+                  <FilterComponent updateFilter={updateFilter} />
                 </Dialog.Panel>
               </Transition.Child>
             </div>
@@ -142,10 +158,11 @@ function App() {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
               {/* Filters */}
-              <FilterComponent />
+              <FilterComponent updateFilter={updateFilter} />
 
               {/* Product grid */}
-              <div className="lg:col-span-3">{/* Your content */}</div>
+              <MovieComponent filters={selectFilter} />
+
             </div>
           </section>
         </main>

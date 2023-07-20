@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { Genre, GenreEntity } from "../helpers/genre-entity"
 
 
-
 type FilterOption = {
   value: string
   label: string
@@ -19,13 +18,18 @@ type Filter = {
 }
 
 
-const FilterComponent = () => {
+type FilterComponentInput = {
+  updateFilter: any
+}
+
+
+const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
 
   const [filters, setFilters] = useState<Array<Filter>>([])
 
   useEffect(() => {
 
-    new GenreEntity().getGenres().then(genres => {
+    new GenreEntity().getItems().then(genres => {
 
       console.log(genres)
       const options = genres.map((g: Genre): FilterOption => ({
@@ -34,7 +38,7 @@ const FilterComponent = () => {
         checked: false,
       }))
 
-      setFilters([{ id: 'genre', name: 'Genres', options }])
+      setFilters([{ id: 'genres', name: 'Genres', options }])
     })
 
   }, [])
@@ -70,6 +74,7 @@ const FilterComponent = () => {
                         defaultValue={option.value}
                         type="checkbox"
                         defaultChecked={option.checked}
+                        onChange={() => updateFilter(section.id, option.value)}
                         className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                       />
                       <label
