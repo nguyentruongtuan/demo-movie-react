@@ -12,9 +12,10 @@ Chart.register(CategoryScale,
 
 type MovieContent = {
   filters: MovieFilter
+  displatItems: number
 }
 
-const MovieComponent = ({ filters }: MovieContent) => {
+const MovieComponent = ({ filters, displatItems }: MovieContent) => {
 
   const [movies, setMovies] = useState<Array<Movie>>([])
 
@@ -99,15 +100,15 @@ const MovieComponent = ({ filters }: MovieContent) => {
 
   useEffect(() => {
 
-    new MovieEntity().getItems(filters)
+    new MovieEntity().getItems(filters, displatItems)
       .then(movies => setMovies(movies))
 
-  }, [filters])
+  }, [filters, displatItems])
 
   return (
     <div className="lg:col-span-3">
-      <div className="lg:col-span-3 flex flex-wrap flex-shrink">
-        <div className="p-4 w-1/2 flex flex-col justify-around">
+      <div className="lg:col-span-3 flex flex-wrap">
+        <div className="p-4 w-1/2 flex flex-col justify-between">
           <div>
             <Bar
               data={getBarChartData()}
@@ -118,7 +119,7 @@ const MovieComponent = ({ filters }: MovieContent) => {
             <h1 className="font-bold text-center">Year</h1>
           </div>
         </div>
-        <div className="p-4 w-1/2 flex flex-col justify-between shrink">
+        <div className="p-4 w-1/2 flex flex-col justify-between">
           <Pie
             data={getPieChartData()}
           />

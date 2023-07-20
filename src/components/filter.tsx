@@ -2,6 +2,7 @@ import { Disclosure } from "@headlessui/react"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
 import { useEffect, useState } from "react"
 import { Genre, GenreEntity } from "../helpers/genre-entity"
+import DisplayItem from "./display-item"
 
 
 type FilterOption = {
@@ -23,6 +24,24 @@ type FilterComponentInput = {
 }
 
 
+const itemPaging: Filter = {
+  id: 'item',
+  name: 'Items',
+  options: [
+    {
+      value: '10',
+      label: '10',
+      checked: false
+    },
+    {
+      value: '20',
+      label: '20',
+      checked: false
+    },
+  ]
+}
+
+
 const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
 
   const [filters, setFilters] = useState<Array<Filter>>([])
@@ -30,8 +49,6 @@ const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
   useEffect(() => {
 
     new GenreEntity().getItems().then(genres => {
-
-      console.log(genres)
       const options = genres.map((g: Genre): FilterOption => ({
         value: String(g.id),
         label: g.name,
@@ -91,6 +108,7 @@ const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
           )}
         </Disclosure>
       ))}
+
     </div>
   )
 }

@@ -10,6 +10,7 @@ export type Movie = {
 
 export type GenreFilter = { type: "genres"; value: Set<number> };
 export type YearFilter = { type: "year"; value: Set<number> };
+export type LimitFilter = { type: "limit"; value: number };
 export type MovieFilter = Array<GenreFilter | YearFilter>;
 
 const host = "http://localhost:8000/api";
@@ -19,10 +20,13 @@ const token =
 export class MovieEntity {
   private uri: string = "/movies";
 
-  public async getItems(filters: MovieFilter): Promise<Array<Movie>> {
+  public async getItems(
+    filters: MovieFilter,
+    displatItems: number
+  ): Promise<Array<Movie>> {
     try {
       const filterObject = {
-        limit: 50,
+        limit: displatItems,
       } as any;
       for (const filter of filters) {
         if (filter.type === "genres") {

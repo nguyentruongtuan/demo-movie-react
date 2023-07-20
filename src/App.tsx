@@ -9,11 +9,16 @@ import { MovieFilter } from './helpers/movie-entity';
 
 
 const sortOptions = [
-  { name: 'Most Popular', href: '#', current: true },
-  { name: 'Best Rating', href: '#', current: false },
-  { name: 'Newest', href: '#', current: false },
-  { name: 'Price: Low to High', href: '#', current: false },
-  { name: 'Price: High to Low', href: '#', current: false },
+  { name: '10', href: '#10', current: true },
+  { name: '20', href: '#20', current: false },
+  { name: '30', href: '#30', current: false },
+  { name: '40', href: '#40', current: false },
+  { name: '50', href: '#40', current: false },
+  { name: '60', href: '#40', current: false },
+  { name: '70', href: '#40', current: false },
+  { name: '80', href: '#40', current: false },
+  { name: '90', href: '#40', current: false },
+  { name: '100', href: '#40', current: false },
 ]
 
 function classNames(...classes: any) {
@@ -25,8 +30,11 @@ function App() {
 
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false)
   const [selectFilter, setSelectFilter] = useState<MovieFilter>([{ type: 'genres', value: new Set() }])
+  const [displatItems, setDisplatItems] = useState<number>(10)
 
   const updateFilter = (filterKey: string, value: number) => {
+
+    console.log(filterKey, value)
     const newFilters = [...selectFilter]
 
     for (const filter of newFilters) {
@@ -96,7 +104,7 @@ function App() {
               <Menu as="div" className="relative inline-block text-left">
                 <div>
                   <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
-                    Sort
+                    Display
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
@@ -121,10 +129,11 @@ function App() {
                             <a
                               href={option.href}
                               className={classNames(
-                                option.current ? 'font-medium text-gray-900' : 'text-gray-500',
+                                Number(option.name) === displatItems ? 'font-medium text-gray-900' : 'text-gray-500',
                                 active ? 'bg-gray-100' : '',
                                 'block px-4 py-2 text-sm'
                               )}
+                              onClick={() => setDisplatItems(Number(option.name))}
                             >
                               {option.name}
                             </a>
@@ -161,7 +170,7 @@ function App() {
               <FilterComponent updateFilter={updateFilter} />
 
               {/* Product grid */}
-              <MovieComponent filters={selectFilter} />
+              <MovieComponent filters={selectFilter} displatItems={displatItems} />
 
             </div>
           </section>
