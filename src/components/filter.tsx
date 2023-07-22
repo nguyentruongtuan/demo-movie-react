@@ -1,9 +1,8 @@
 import { Disclosure } from "@headlessui/react"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
 import { useContext, useEffect, useState } from "react"
-import { Genre, GenreEntity } from "../helpers/genre-entity"
-import DisplayItem from "./display-item"
 import { AuthContext } from "../context/auth-context"
+import { Genre, GenreEntity } from "../helpers/genre-entity"
 
 
 type FilterOption = {
