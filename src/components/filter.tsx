@@ -1,8 +1,9 @@
 import { Disclosure } from "@headlessui/react"
 import { MinusIcon, PlusIcon } from "@heroicons/react/20/solid"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Genre, GenreEntity } from "../helpers/genre-entity"
 import DisplayItem from "./display-item"
+import { AuthContext } from "../context/auth-context"
 
 
 type FilterOption = {
@@ -45,10 +46,15 @@ const itemPaging: Filter = {
 const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
 
   const [filters, setFilters] = useState<Array<Filter>>([])
+  const token = useContext(AuthContext)
 
   useEffect(() => {
 
-    new GenreEntity().getItems().then(genres => {
+    if (!token) {
+      return
+    }
+
+    new GenreEntity(token).getItems().then(genres => {
       const options = genres.map((g: Genre): FilterOption => ({
         value: String(g.id),
         label: g.name,
@@ -58,7 +64,7 @@ const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
       setFilters([{ id: 'genres', name: 'Genres', options }])
     })
 
-  }, [])
+  }, [token])
 
   return (
 

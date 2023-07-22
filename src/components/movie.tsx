@@ -1,8 +1,9 @@
 import { ArcElement, BarElement, CategoryScale, Chart, Legend, LinearScale, Title, Tooltip } from 'chart.js'
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Bar, Pie } from "react-chartjs-2"
 import { Movie, MovieEntity, MovieFilter } from "../helpers/movie-entity"
 import MovieItemComponent from "./movie/movie-item"
+import { AuthContext } from '../context/auth-context'
 Chart.register(CategoryScale,
   LinearScale,
   BarElement,
@@ -18,7 +19,7 @@ type MovieContent = {
 const MovieComponent = ({ filters, displatItems }: MovieContent) => {
 
   const [movies, setMovies] = useState<Array<Movie>>([])
-
+  const token = useContext(AuthContext)
 
   const randomRGB = () => {
     const colorString = [1, 2, 3].map(item => Math.floor(Math.random() * 255)).join(",")
@@ -99,11 +100,24 @@ const MovieComponent = ({ filters, displatItems }: MovieContent) => {
 
 
   useEffect(() => {
+    if (!token) {
+      return
+    }
 
-    new MovieEntity().getItems(filters, displatItems)
-      .then(movies => setMovies(movies))
+    (async () => {
 
-  }, [filters, displatItems])
+      try {
+
+        const movies = await new MovieEntity(token).getItems(filters, displatItems)
+
+        setMovies(movies)
+      } catch (error) {
+        console.log(error)
+        setMovies([])
+      }
+    })()
+
+  }, [filters, displatItems, token])
 
   return (
     <div className="lg:col-span-3">
