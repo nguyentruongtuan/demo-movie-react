@@ -24,23 +24,6 @@ type FilterComponentInput = {
 }
 
 
-const itemPaging: Filter = {
-  id: 'item',
-  name: 'Items',
-  options: [
-    {
-      value: '10',
-      label: '10',
-      checked: false
-    },
-    {
-      value: '20',
-      label: '20',
-      checked: false
-    },
-  ]
-}
-
 
 const FilterComponent = ({ updateFilter }: FilterComponentInput) => {
 
